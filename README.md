@@ -10,3 +10,9 @@ Anggota Pertama
 Nama : Callista Aureliani
 
 NIM: 1801624222
+
+Anggota Kedua 
+
+Nama : Sendrina Oktavia Hariyanto
+
+NIM : 1801624391 
