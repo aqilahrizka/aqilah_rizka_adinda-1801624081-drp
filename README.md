@@ -18,4 +18,7 @@ Nama : Sendrina Oktavia Hariyanto
 NIM : 1801624391 
 # tugas-if-statement
 # tugas-looping
+<<<<<<< HEAD
 # tugas-if-statement
+=======
+>>>>>>> d54cffb5ceb48c182831960384516bb979bda7e6
