@@ -5,7 +5,7 @@ from favorit import (
     export_csv
 )
 from kategori import tampilkan_kategori
-from statistik import tampilkan_statistik
+from statistik_affirmation import tampilkan_statistik
 
 
 def tampilkan_menu():
@@ -56,4 +56,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+    

@@ -1,24 +1,30 @@
 import sqlite3
 
-conn = sqlite3.connect("affirmation.db")
-cursor = conn.cursor()
+def tampilkan_statistik():
+    conn = sqlite3.connect("affirmation.db")
+    cursor = conn.cursor()
 
-cursor.execute("""
-SELECT kategori, COUNT(*)
-FROM afirmasi
-GROUP BY kategori
-""")
+    cursor.execute("""
+    SELECT kategori, COUNT(*)
+    FROM afirmasi
+    GROUP BY kategori
+    """)
 
-hasil = cursor.fetchall()
+    hasil = cursor.fetchall()
 
-print("\n=== STATISTIK AFIRMASI ===")
+    print("\n=== STATISTIK AFIRMASI ===")
 
-total = 0
+    total = 0
 
-for kategori, jumlah in hasil:
-    print(f"{kategori}: {jumlah}")
-    total += jumlah
+    for kategori, jumlah in hasil:
+        print(f"{kategori}: {jumlah}")
+        total += jumlah
 
-print(f"\nTotal afirmasi: {total}")
+    print(f"\nTotal afirmasi: {total}")
 
-conn.close()
+    conn.close()
+
+
+if __name__ == "__main__":
+    tampilkan_statistik()
+    
