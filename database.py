@@ -1,17 +1,12 @@
 import sqlite3
 
-conn = sqlite3.connect("affirmation.db")
-cursor = conn.cursor()
+DATABASE = "affirmation.db"
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS afirmasi (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    teks TEXT NOT NULL,
-    kategori TEXT NOT NULL
-)
-""")
 
-conn.commit()
-conn.close()
-
-print("Database berhasil dibuat")
+def get_connection():
+    """
+    Membuat koneksi ke database SQLite.
+    """
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
