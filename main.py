@@ -1,28 +1,62 @@
-from affirmation import tampil_afirmasi
-from kategori import tampil_kategori
-from favorit import tampil_favorit
+from affirmation import tampilkan_afirmasi_hari_ini
 
-while True:
-    print("\n=== DAILY AFFIRMATION ===")
+from favorit import (
+    simpan_favorit,
+    tampilkan_favorit,
+    export_csv
+)
+
+from kategori import tampilkan_kategori
+
+from statistik import tampilkan_statistik
+
+
+def tampilkan_menu():
+    print("\n" + "=" * 45)
+    print("         DAILY AFFIRMATION APP")
+    print("=" * 45)
     print("1. Lihat Afirmasi Hari Ini")
-    print("2. Lihat Kategori")
-    print("3. Lihat Favorit")
-    print("4. Keluar")
+    print("2. Simpan Afirmasi Hari Ini ke Favorit")
+    print("3. Lihat Daftar Favorit")
+    print("4. Jelajahi Afirmasi Berdasarkan Kategori")
+    print("5. Ekspor Daftar Favorit ke CSV")
+    print("6. Lihat Statistik Afirmasi & Favorit")
+    print("7. Keluar")
+    print("=" * 45)
 
-    pilihan = input("Pilih menu: ")
 
-    if pilihan == "1":
-        tampil_afirmasi()
+def main():
+    while True:
+        tampilkan_menu()
 
-    elif pilihan == "2":
-        tampil_kategori()
+        pilihan = input("Pilih menu (1-7): ")
 
-    elif pilihan == "3":
-        tampil_favorit()
+        if pilihan == "1":
+            tampilkan_afirmasi_hari_ini()
 
-    elif pilihan == "4":
-        print("Terima kasih telah menggunakan aplikasi.")
-        break
+        elif pilihan == "2":
+            simpan_favorit()
 
-    else:
-        print("Pilihan tidak valid.")
+        elif pilihan == "3":
+            tampilkan_favorit()
+
+        elif pilihan == "4":
+            tampilkan_kategori()
+
+        elif pilihan == "5":
+            export_csv()
+
+        elif pilihan == "6":
+            tampilkan_statistik()
+
+        elif pilihan == "7":
+            print("\nTerima kasih telah menggunakan Daily Affirmation App.")
+            break
+
+        else:
+            print("\nPilihan tidak valid.")
+
+
+if __name__ == "__main__":
+    main()
+    
