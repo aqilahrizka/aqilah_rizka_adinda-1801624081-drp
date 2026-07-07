@@ -1,13 +1,10 @@
 from affirmation import tampilkan_afirmasi_hari_ini
-
 from favorit import (
     simpan_favorit,
     tampilkan_favorit,
     export_csv
 )
-
 from kategori import tampilkan_kategori
-
 from statistik import tampilkan_statistik
 
 
@@ -54,9 +51,8 @@ def main():
             break
 
         else:
-            print("\nPilihan tidak valid.")
+            print("\nPilihan tidak valid. Silakan pilih menu 1-7.")
 
 
 if __name__ == "__main__":
     main()
-    
