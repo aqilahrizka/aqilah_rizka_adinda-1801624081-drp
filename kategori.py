@@ -50,4 +50,3 @@ def tampilkan_kategori():
         print("Masukkan angka yang benar.")
 
     conn.close()
-    
