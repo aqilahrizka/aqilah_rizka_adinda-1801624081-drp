@@ -1,32 +1,35 @@
 import csv
 from datetime import datetime
 from database import get_connection
+import affirmation
 
 
 def simpan_favorit():
+    if affirmation.afirmasi_hari_ini is None:
+        print("\nSilakan lihat Afirmasi Hari Ini terlebih dahulu.")
+        return
+
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Menampilkan semua afirmasi
-    cursor.execute("SELECT * FROM affirmations")
-    data = cursor.fetchall()
+    data = affirmation.afirmasi_hari_ini
 
-    print("\n===== DAFTAR AFIRMASI =====")
-    for item in data:
-        print(f"{item['id']}. {item['text']} ({item['category']})")
+    print("\n===== AFIRMASI HARI INI =====")
+    print(f"Kategori : {data['category']}")
+    print(f'"{data["text"]}"')
 
-    try:
-        pilihan = int(input("\nMasukkan ID afirmasi yang ingin disimpan: "))
+    pilih = input("\nSimpan afirmasi ini ke favorit? (y/n): ").lower()
 
-        cursor.execute(
-            "SELECT * FROM affirmations WHERE id = ?",
-            (pilihan,)
-        )
+    if pilih == "y":
 
-        hasil = cursor.fetchone()
+        cursor.execute("""
+            SELECT *
+            FROM favorites
+            WHERE affirmation_id = ?
+        """, (data["id"],))
 
-        if hasil is None:
-            print("ID tidak ditemukan.")
+        if cursor.fetchone():
+            print("\nAfirmasi sudah ada di daftar favorit.")
 
         else:
             tanggal = datetime.now().strftime("%Y-%m-%d")
@@ -34,13 +37,13 @@ def simpan_favorit():
             cursor.execute("""
                 INSERT INTO favorites (affirmation_id, saved_date)
                 VALUES (?, ?)
-            """, (pilihan, tanggal))
+            """, (data["id"], tanggal))
 
             conn.commit()
-            print("Afirmasi berhasil disimpan ke favorit.")
+            print("\n✓ Afirmasi berhasil disimpan ke favorit.")
 
-    except ValueError:
-        print("Masukkan angka yang benar.")
+    else:
+        print("\nAfirmasi tidak disimpan.")
 
     conn.close()
 
@@ -50,13 +53,17 @@ def tampilkan_favorit():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT favorites.id,
-               affirmations.text,
-               affirmations.category,
-               favorites.saved_date
+        SELECT
+            favorites.id,
+            affirmations.text,
+            categories.name AS category,
+            favorites.saved_date
         FROM favorites
         JOIN affirmations
-        ON favorites.affirmation_id = affirmations.id
+            ON favorites.affirmation_id = affirmations.id
+        JOIN categories
+            ON affirmations.category_id = categories.id
+        ORDER BY favorites.id
     """)
 
     data = cursor.fetchall()
@@ -84,12 +91,15 @@ def export_csv():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT affirmations.text,
-               affirmations.category,
-               favorites.saved_date
+        SELECT
+            affirmations.text,
+            categories.name AS category,
+            favorites.saved_date
         FROM favorites
         JOIN affirmations
-        ON favorites.affirmation_id = affirmations.id
+            ON favorites.affirmation_id = affirmations.id
+        JOIN categories
+            ON affirmations.category_id = categories.id
     """)
 
     data = cursor.fetchall()
@@ -117,5 +127,4 @@ def export_csv():
 
     conn.close()
 
-    print("Data berhasil diekspor ke favorit.csv")
-    
+    print("\nData berhasil diekspor ke favorit.csv")

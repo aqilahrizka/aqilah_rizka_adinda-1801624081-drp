@@ -5,16 +5,32 @@ def create_tables():
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Tabel afirmasi
+    # =========================
+    # Tabel Categories
+    # =========================
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS categories (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE
+        )
+    """)
+
+    # =========================
+    # Tabel Affirmations
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS affirmations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             text TEXT NOT NULL,
-            category TEXT NOT NULL
+            category_id INTEGER NOT NULL,
+            FOREIGN KEY (category_id)
+                REFERENCES categories(id)
         )
     """)
 
-    # Tabel favorit
+    # =========================
+    # Tabel Favorites
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS favorites (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,6 +40,16 @@ def create_tables():
                 REFERENCES affirmations(id)
         )
     """)
+
+    # Menambahkan kategori jika belum ada
+    cursor.executemany("""
+        INSERT OR IGNORE INTO categories(name)
+        VALUES (?)
+    """, [
+        ("Motivasi",),
+        ("Percaya Diri",),
+        ("Mental",)
+    ])
 
     conn.commit()
     conn.close()
