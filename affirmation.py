@@ -74,4 +74,3 @@ def tampilkan_afirmasi_hari_ini():
     print(f'"{afirmasi["text"]}"')
 
     conn.close()
-    
