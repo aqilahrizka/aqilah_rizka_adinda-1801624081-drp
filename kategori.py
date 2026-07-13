@@ -34,7 +34,7 @@ def tampilkan_kategori():
                 affirmations.text
             FROM affirmations
             JOIN categories
-            ON affirmations.category_id = categories.id
+                ON affirmations.category_id = categories.id
             WHERE categories.id = ?
         """, (pilihan,))
 
@@ -94,8 +94,4 @@ def tampilkan_kategori():
     except ValueError:
         print("Masukkan angka yang benar.")
 
-<<<<<<< HEAD
     conn.close()
-=======
-    conn.close()
->>>>>>> 0da56bf (Update fitur Daily Affirmation)
