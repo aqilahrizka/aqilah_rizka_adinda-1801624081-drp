@@ -94,4 +94,3 @@ def tampilkan_statistik():
     print("=" * 30)
 
     conn.close()
-    
